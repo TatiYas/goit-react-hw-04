@@ -8,7 +8,7 @@ export const getImages = async (question, currentPage) => {
       query: question,
       page: currentPage,
       per_page: 12,
-      client_id: '---------------------',
+      client_id: 'pFqrYbhIAXs',
     },
   });
   return response.data;

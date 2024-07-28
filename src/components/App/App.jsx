@@ -1,6 +1,6 @@
 import s from './App.module.css';
 import { useEffect, useState } from 'react';
-import { getImages } from '../../images-api';
+import { getImages } from '../../components/images-api';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import SearchBar from '../SearchBar/SearchBar';
 import Loader from '../Loader/Loader';

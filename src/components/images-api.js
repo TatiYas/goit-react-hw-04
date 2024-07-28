@@ -1,16 +1,27 @@
 
-import axios from 'axios';
+import axios from "axios";
 
-axios.defaults.baseURL = 'https://api.unsplash.com/';
+const ACCESS_KEY = "Rh6Xv5HI-zfS2bHmKByQrvtE6pCTL4etJM6aiD5yaxA";
 
-export const getImages = async (question, currentPage) => {
-  const response = await axios.get('/search/photos', {
-    params: {
-      query: question,
-      page: currentPage,
-      per_page: 12,
-      client_id: 'Rh6Xv5HI-zfS2bHmKByQrvtE6pCTL4etJM6aiD5yaxA',
-    },
-  });
-  return response.data;
+axios.defaults.baseURL = "https://api.unsplash.com/";
+
+export const fetchImagesWithName = async (name, page = 1, perPage = 10) => {
+  try {
+    const response = await axios.get("/search/photos", {
+      params: {
+        query: name,
+        page: page,
+        per_page: perPage,
+        client_id: ACCESS_KEY,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching images:", error);
+    throw error;
+  }
 };
+
+
+
+

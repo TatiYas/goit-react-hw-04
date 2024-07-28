@@ -1,81 +1,80 @@
-import SearchBar from "../SearchBar/SearchBar";
-import ImageGallery from "../ImageGallery/ImageGallery";
-import Loader from "../Loader/Loader";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
-import fetchPhotos from "../../photo-api";
-import "./App.css";
-import { useEffect, useState } from "react";
-import ImageModal from "../ImageModal/ImageModal";
+import s from './App.module.css';
+import { useEffect, useState } from 'react';
+import { getImages } from '../../components/images-api';
+import ImageGallery from '../ImageGallery/ImageGallery';
+import SearchBar from '../SearchBar/SearchBar';
+import Loader from '../Loader/Loader';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
+import ImageModal from '../ImageModal/ImageModal';
 
-function App() {
-  const [searchQuery, setSearchQuery] = useState("");
+export default function App() {
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
-  const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [totalPage, setTotalPage] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
   useEffect(() => {
-    if (searchQuery === "") {
+    if (searchQuery.trim() === '') {
       return;
     }
-    async function getData() {
+
+    async function fetchImages() {
       try {
-        setLoading(true);
-        setError(false);
-        const data = await fetchPhotos(searchQuery, page);
-        setPhotos((prevPhotos) => {
-          return [...prevPhotos, ...data];
-        });
+        setIsLoading(true);
+        setIsError(false);
+        const data = await getImages(searchQuery, page);
+        setTotalPage(page < Math.ceil(data.total / 12));
+        setImages(prevState => [...prevState, ...data.results]);
       } catch (error) {
-        setError(true);
+        setIsError(true);
+        console.log('error');
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
-    getData();
-  }, [searchQuery, page]);
 
-  function handleLoadMore() {
-    setPage((prevPage) => prevPage + 1);
-  }
+    fetchImages();
+  }, [page, searchQuery]);
 
-  function handleSearch(newQuery) {
-    setSearchQuery(newQuery);
+  const handlSearch = async image => {
+    setSearchQuery(image);
     setPage(1);
-    setPhotos([]);
-  }
+    setImages([]);
+  };
 
-  function openModal(photo) {
-    setSelectedPhoto(photo);
+  const handleLoadMore = async () => {
+    setPage(page + 1);
+  };
+
+  const openModal = imageUrl => {
+    setSelectedImage(imageUrl);
     setModalIsOpen(true);
-  }
+  };
 
-  function closeModal() {
+  const closeModal = () => {
+    setSelectedImage('');
     setModalIsOpen(false);
-    setSelectedPhoto(null);
-  }
+  };
+
   return (
-    <>
-      <SearchBar onSearch={handleSearch} />
-      {error && <ErrorMessage />}
-      {photos.length > 0 && (
-        <ImageGallery photos={photos} onClick={openModal} />
+    <div className={s.container}>
+      <SearchBar onSearch={handlSearch} />
+      {isError && <ErrorMessage />}
+      {images.length > 0 && (
+        <ImageGallery items={images} onImageClick={openModal} />
       )}
-      {photos.length > 0 && !loading && (
-        <LoadMoreBtn onClick={handleLoadMore} />
-      )}
-      {loading && <Loader />}
-      {selectedPhoto && (
-        <ImageModal
-          isOpen={modalIsOpen}
-          onClose={closeModal}
-          photo={selectedPhoto}
-        />
-      )}
-    </>
+      {isLoading && <Loader />}
+      {totalPage > 0 && !isLoading && <LoadMoreBtn onClick={handleLoadMore} />}
+      <ImageModal
+        isOpen={modalIsOpen}
+        onClose={closeModal}
+        imageUrl={selectedImage}
+      />
+    </div>
   );
 }
-export default App;

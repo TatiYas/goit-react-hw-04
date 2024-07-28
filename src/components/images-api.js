@@ -8,7 +8,7 @@ export const getImages = async (question, currentPage) => {
     params: {
       query: question,
       page: currentPage,
-      per_page: 11,
+      per_page: 12,
       client_id: 'Rh6Xv5HI-zfS2bHmKByQrvtE6pCTL4etJM6aiD5yaxA',
     },
   });

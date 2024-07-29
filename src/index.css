@@ -1,11 +1,11 @@
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 24px;
   font-weight: 400;
 
   color: #242424;
-  background-color: rgba(255, 255, 255, 0.87);
+  background-color: rgba(209, 246, 42, 0.87);
 
   list-style-type: none;
   font-synthesis: none;
@@ -32,14 +32,8 @@ margin: 0;
 body {
   margin: 0;
   display: flex;
-  
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-
- 
-  width: 768px;
 }
+
 ul,
 li {
   margin: 0;

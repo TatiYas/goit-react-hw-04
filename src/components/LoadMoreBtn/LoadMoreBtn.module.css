@@ -1,8 +1,9 @@
 .btn {
     width: 150px;
     height: 50px;
-    background-color: lightgrey;
-    border: 1px solid rgb(169, 169, 169);
+    background-color: rgb(205, 235, 84);
+    border: 1px solid rgb(31, 37, 160);
+    border-radius: 8px;
     color: black;
     font-size: 22px;
     font-weight: 500;
@@ -10,4 +11,16 @@
     letter-spacing: -0.03em;
     padding: 10px;
     margin: 10px auto;
+    cursor: pointer;
+    transition: border-color 0.25s;
+   
   }
+ 
+  .btn:hover {
+    border-color: #3942ee;
+  }
+  .btn:focus,
+  .btn:focus-visible {
+    outline: 4px ;
+  }
+  

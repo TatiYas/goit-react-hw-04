@@ -1,4 +1,7 @@
-.btn {
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
     width: 150px;
     height: 50px;
     background-color: rgb(205, 235, 84);
@@ -16,11 +19,11 @@
    
   }
  
-  .btn:hover {
+  .button:hover {
     border-color: #3942ee;
   }
-  .btn:focus,
-  .btn:focus-visible {
+  .button:focus,
+  .button:focus-visible {
     outline: 4px ;
   }
   

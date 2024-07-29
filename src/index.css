@@ -29,3 +29,24 @@ h6,
 p {
 margin: 0;
 }
+body {
+  margin: 0;
+  display: flex;
+  
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+
+ 
+  width: 768px;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;}
+
+  btn {
+    cursor: pointer;
+  }
+  

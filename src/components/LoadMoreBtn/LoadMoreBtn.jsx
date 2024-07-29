@@ -1,8 +1,8 @@
-import css from "./LoadMoreBtn.module.css";
+import s from "./LoadMoreBtn.module.css";
 
 function LoadMoreBtn({ onClick }) {
   return (
-    <button className={css.btn} onClick={onClick}>
+    <button className={s.button} onClick={onClick}>
       Load more
     </button>
   );

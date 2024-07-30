@@ -14,7 +14,7 @@ export default function App() {
   const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
-  const [totalPage, setTotalPage] = useState(false);
+  const [totalPages, setTotalPages] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 
@@ -28,7 +28,7 @@ export default function App() {
         setIsLoading(true);
         setIsError(false);
         const data = await getImages(searchQuery, page);
-        setTotalPage(page < Math.ceil(data.total / 12));
+        setTotalPages(Math.ceil(data.total / 12));
         setImages(prevState => [...prevState, ...data.results]);
       } catch (error) {
         setIsError(true);
@@ -41,7 +41,7 @@ export default function App() {
     fetchImages();
   }, [page, searchQuery]);
 
-  const handlSearch = async image => {
+  const handleSearch = async image => {
     setSearchQuery(image);
     setPage(1);
     setImages([]);
@@ -63,13 +63,15 @@ export default function App() {
 
   return (
     <div className={s.container}>
-      <SearchBar onSearch={handlSearch} />
+      <SearchBar onSearch={handleSearch} />
       {isError && <ErrorMessage />}
       {images.length > 0 && (
         <ImageGallery items={images} onImageClick={openModal} />
       )}
       {isLoading && <Loader />}
-      {totalPage > 0 && !isLoading && <LoadMoreBtn onClick={handleLoadMore} />}
+      {page <= totalPages && !isLoading && (
+        <LoadMoreBtn onClick={handleLoadMore} />
+      )}
       <ImageModal
         isOpen={modalIsOpen}
         onClose={closeModal}

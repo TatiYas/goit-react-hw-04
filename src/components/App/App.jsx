@@ -11,12 +11,12 @@ import ImageModal from '../ImageModal/ImageModal';
 export default function App() {
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [isError, setIsError] = useState(null);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [totalPages, setTotalPages] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     if (searchQuery.trim() === '') {
